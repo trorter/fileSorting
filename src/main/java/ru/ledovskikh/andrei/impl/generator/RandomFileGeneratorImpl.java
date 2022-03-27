@@ -3,7 +3,6 @@ package ru.ledovskikh.andrei.impl.generator;
 import ru.ledovskikh.andrei.impl.FileHelper;
 import ru.ledovskikh.andrei.model.generator.RandomFileGenerator;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,9 +14,6 @@ import java.util.Random;
  * @author Andrey Ledovskikh
  */
 public class RandomFileGeneratorImpl implements RandomFileGenerator {
-
-    private static final int TOTAL_STRING_COUNT = 1000;
-    private static final int MAX_WORD_IN_ROW= 100;
 
     private static final List<String> RANDOM_WORDS_LIST = new ArrayList<>(
         Arrays.asList(
@@ -126,22 +122,27 @@ public class RandomFileGeneratorImpl implements RandomFileGenerator {
 
     private final String path;
 
-    public RandomFileGeneratorImpl(String path) {
+    private final int totalStringCount;
+    private final int maxWordsInRow;
+
+    public RandomFileGeneratorImpl(String path, int totalStringCount, int maxWordsInRow) {
         this.path = path;
+        this.totalStringCount = totalStringCount;
+        this.maxWordsInRow = maxWordsInRow;
     }
 
     @Override
     public void generateRandomFile() throws IOException {
         FileHelper.checkAndRefreshFile(this.path);
 
-        FileWriter fileWriter = new FileWriter(new File(this.path));
+        FileWriter fileWriter = new FileWriter(this.path);
 
         final Random random = new Random();
-        for (int i = 0; i < TOTAL_STRING_COUNT; i++) {
+        for (int i = 0; i < this.totalStringCount; i++) {
             final StringBuilder randomString = new StringBuilder(1000);
-            final int wordsInString = random.nextInt(MAX_WORD_IN_ROW) + 1;
+            final int wordsInString = random.nextInt(this.maxWordsInRow) + 1;
 
-            for (int j = 0; j <wordsInString; j++) {
+            for (int j = 0; j < wordsInString; j++) {
                 randomString.append(RANDOM_WORDS_LIST.get(random.nextInt(RANDOM_WORDS_LIST.size())));
             }
 

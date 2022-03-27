@@ -14,8 +14,17 @@ class RandomFileGeneratorImplTest {
 
     @Test
     void testGenerator() {
-        final RandomFileGenerator generator = new RandomFileGeneratorImpl(App.PATH + App.INPUT_FILE_NAME);
+        final RandomFileGenerator generator = new RandomFileGeneratorImpl(
+                App.PATH + App.INPUT_FILE_NAME,
+                App.TOTAL_STRING_COUNT,
+                App.MAX_WORDS_IN_ROW);
         assertDoesNotThrow(generator::generateRandomFile);
+    }
+
+    @Test
+    void testAB() {
+        System.out.println("a".compareTo("b"));
+        System.out.println("b".compareTo("a"));
     }
 
 }

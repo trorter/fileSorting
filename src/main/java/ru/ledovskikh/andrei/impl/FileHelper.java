@@ -8,17 +8,29 @@ import java.io.IOException;
  */
 public class FileHelper {
 
-    public static void checkAndRefreshFile (String path) throws IOException {
+    private static void deleteFile(String path) throws IOException {
         final File file = new File(path);
         if (file.exists()) {
-            System.out.println("File exists. Delete an existed file");
             if (!file.delete()) {
                 throw new IOException("Cannot delete the file: " + path);
             }
         }
+    }
 
-        if (!file.createNewFile()) {
+    public static void checkAndRefreshFile (String path) throws IOException {
+        deleteFile(path);
+
+        if (!new File(path).createNewFile()) {
             throw new IOException("Cannot create the file: " + path);
+        }
+    }
+
+    public static void replaceFiles(String newFileName, String oldFileName) throws IOException {
+        deleteFile(newFileName);
+
+        if (!new File(oldFileName).renameTo(new File(newFileName))) {
+            throw new IOException("Cannot rename file: " + oldFileName
+                    + " to :" + newFileName);
         }
     }
 }
